@@ -1,0 +1,43 @@
+public class LemonadeChange {
+    public static boolean change(int [] notes){
+        int fiverupee = 0 ;
+        int tenrupee = 0;
+        for(int note:notes){
+            if(note==5){
+                fiverupee++;
+            } else if (note==10) {
+                if(fiverupee==0){
+                    return false;
+                }
+                fiverupee--;
+                tenrupee++;
+            }
+            else{
+                if(tenrupee>0&&fiverupee>0){
+                    fiverupee--;
+                    tenrupee--;
+                } else if (fiverupee>=3) {
+                    fiverupee-=3;
+
+                }
+                else {
+                    return false;
+                }
+            }
+
+        }
+
+     return true;
+    }
+
+    public static void main(String[] args) {
+        int [] notes = {5, 5, 5, 10, 20};
+        boolean result = change(notes);
+        if(result){
+            System.out.println("ALL CHANGE GIVE AND TAKE FOR THE 5 RUPEE LEMONADE IS POSSIBLE");
+        }
+        else {
+            System.out.println("THE GIVE AND TAKE OF CHANGE FOR THE LEMONADE IS NOT POSSIBLE");
+        }
+    }
+}

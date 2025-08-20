@@ -1,0 +1,92 @@
+import java.util.*;
+
+class Node1 {
+    int data;
+    Node1 next;
+    Node1 down;
+
+    Node1(int data) {
+        this.data = data;
+        this.next = null;
+        this.down = null;
+    }
+}
+
+public class Flattening {
+
+    public static Node1 merge(Node1 a, Node1 b) {
+        if (a == null){
+            return b;
+        }
+        if (b == null){
+            return a;
+        }
+        Node1 result;
+
+        if (a.data < b.data) {
+            result = a;
+            result.down = merge(a.down, b);
+        } else {
+            result = b;
+            result.down = merge(a, b.down);
+        }
+
+        return result;
+    }
+
+    public static Node1 flatten(Node1 root) {
+        if (root == null || root.next == null) {
+            return root;
+        }
+
+        root.next = flatten(root.next);
+
+        root = merge(root, root.next);
+
+        return root;
+    }
+
+    public static void printList(Node1 root) {
+        while (root != null) {
+            System.out.print(root.data + " ");
+            root = root.down;
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter number of main nodes: ");
+        int n = sc.nextInt();
+
+        Node1[] arr = new Node1[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter data for main node " + (i + 1) + ": ");
+            arr[i] = new Node1(sc.nextInt());
+
+            System.out.print("Enter number of nodes in sublist of node " + (i + 1) + ": ");
+            int m = sc.nextInt();
+
+            Node1 temp = arr[i];
+            for (int j = 0; j < m; j++) {
+                System.out.print("Enter data for sub node " + (j + 1) + ": ");
+                temp.down = new Node1(sc.nextInt());
+                temp = temp.down;
+            }
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            arr[i].next = arr[i + 1];
+        }
+
+        Node1 root = arr[0];
+
+        System.out.println("Flattened linked list:");
+        Node1 flat = flatten(root);
+        printList(flat);
+
+        sc.close();
+    }
+}

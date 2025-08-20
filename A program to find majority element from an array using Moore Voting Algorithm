@@ -1,3 +1,4 @@
+
 public class MajorityElement {
     public static int voting(int [] arr){
         int candidate = -1;
